@@ -140,11 +140,28 @@
 /* ==================== 结算弹窗 ==================== */
 .result-modal {
   animation: modalIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
-  max-height: 90vh; overflow-y: auto;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 @keyframes modalIn {
   from { opacity: 0; transform: scale(0.85) translateY(20px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+/* 弹窗内容区（可滚动） */
+.modal-body {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+/* 底部按钮栏（固定） */
+.modal-footer {
+  flex-shrink: 0;
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
 }
 /* 弹窗打开时锁定底层滚动 */
 .modal-overlay.modal-open { overflow: hidden; }
@@ -246,7 +263,7 @@ body.modal-locked { overflow: hidden !important; }
   h1 { font-size: 2.5rem !important; }
   .slot-circle { width: 2.8rem; height: 2.8rem; font-size: 0.6rem; }
   .formation-slot.filled .slot-circle { font-size: 0.4rem; }
-  .result-modal { margin: 8px; max-height: 95vh; }
+  .result-modal { margin: 8px; max-height: 90vh; }
   /* 小屏卡牌容器：允许换行，居中排列 */
   #draft-cards-container {
     flex-wrap: wrap !important;
