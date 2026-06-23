@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>38-0-0 完美赛季挑战</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome 图标 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- html2canvas 截图 -->
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <!-- 自定义样式（仅保留Tailwind无法实现的动画/特效） -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Tailwind 主题扩展 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            pitch: { 50: '#f0fdf4', 100: '#dcfce7', 200: '#bbf7d0', 300: '#86efac', 400: '#4ade80', 500: '#22c55e', 600: '#16a34a', 700: '#15803d', 800: '#166534', 900: '#14532d' }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-950 text-white min-h-screen overflow-x-hidden select-none">
+
+  <!-- ==================== 首页 ==================== -->
+  <div id="page-home" class="page active">
+    <div class="flex flex-col items-center justify-center min-h-screen px-4">
+      <!-- 标题区 -->
+      <div class="text-center mb-8">
+        <div class="relative inline-block">
+          <h1 class="text-7xl font-black tracking-wider text-pitch-400 mb-1 title-glow">38-0-0</h1>
+          <div class="absolute -top-2 -right-4 text-xs bg-amber-500 text-black font-bold px-2 py-0.5 rounded-full rotate-12">H5</div>
+        </div>
+        <p class="text-lg text-gray-400 mt-2">完美赛季挑战</p>
+        <p class="text-xs text-gray-600 mt-1">38胜0平0负 - 你能做到吗?</p>
+      </div>
+
+      <!-- 足球装饰动画 -->
+      <div class="mb-8">
+        <div class="football-icon">
+          <i class="fa-solid fa-futbol text-5xl text-pitch-600"></i>
+        </div>
+      </div>
+
+      <!-- 模式选择按钮 -->
+      <div class="w-full max-w-sm space-y-3 mb-6">
+        <button onclick="randomTeam('league')" class="w-full py-4 px-6 bg-gradient-to-br from-pitch-800 to-pitch-700 hover:from-pitch-700 hover:to-pitch-600 rounded-xl font-bold text-lg border border-pitch-500/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-pitch-500/20 active:translate-y-0 active:shadow-none relative overflow-hidden btn-shine">
+          <div class="flex items-center justify-center gap-3">
+            <i class="fa-solid fa-futbol text-xl"></i>
+            <div class="text-left">
+              <div>英超联赛模式</div>
+              <div class="text-xs text-pitch-200/50 font-normal">5支豪门球队 - 38轮完整赛季</div>
+            </div>
+          </div>
+        </button>
+        <button onclick="randomTeam('cup')" class="w-full py-4 px-6 bg-gradient-to-br from-pitch-800 to-pitch-700 hover:from-pitch-700 hover:to-pitch-600 rounded-xl font-bold text-lg border border-pitch-500/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-pitch-500/20 active:translate-y-0 active:shadow-none relative overflow-hidden btn-shine">
+          <div class="flex items-center justify-center gap-3">
+            <i class="fa-solid fa-trophy text-xl"></i>
+            <div class="text-left">
+              <div>国家队杯赛模式</div>
+              <div class="text-xs text-pitch-200/50 font-normal">3支传奇国家队 - 38轮挑战</div>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <!-- 随机抽队提示 -->
+      <div id="home-team-preview" class="w-full max-w-sm bg-gray-900/80 rounded-xl p-4 mb-4 hidden">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-full bg-pitch-900/50 flex items-center justify-center">
+            <i class="fa-solid fa-shield-halved text-pitch-400 text-xl"></i>
+          </div>
+          <div>
+            <div class="text-xs text-gray-400">随机抽取球队</div>
+            <div id="home-team-name" class="text-lg font-bold text-pitch-400"></div>
+            <div id="home-team-season" class="text-xs text-gray-500"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 最佳战绩展示 -->
+      <div id="home-best-record" class="w-full max-w-sm bg-gray-900/80 rounded-xl p-4 mb-3 hidden">
+        <h3 class="text-sm text-gray-400 mb-2"><i class="fa-solid fa-star mr-1 text-amber-400"></i>最佳战绩</h3>
+        <div id="home-best-record-content" class="space-y-1"></div>
+      </div>
+
+      <!-- 已解锁成就展示 -->
+      <div id="home-achievements" class="w-full max-w-sm bg-gray-900/80 rounded-xl p-4 hidden">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-sm text-gray-400"><i class="fa-solid fa-medal mr-1 text-amber-400"></i>已解锁成就</h3>
+          <button onclick="openAchievementWall()" class="text-xs text-pitch-400 hover:text-pitch-300 transition-colors">
+            查看全部 <i class="fa-solid fa-chevron-right ml-0.5"></i>
+          </button>
+        </div>
+        <div id="home-achievements-content" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <!-- 成就墙入口按钮（无成就时也显示） -->
+      <button onclick="openAchievementWall()" class="w-full max-w-sm py-3 bg-gray-900/60 hover:bg-gray-800/80 rounded-xl text-sm text-gray-400 hover:text-gray-300 transition-all mt-3 active:scale-95">
+        <i class="fa-solid fa-trophy mr-2 text-amber-500"></i>成就墙
+      </button>
+
+      <!-- 底部提示 -->
+      <div class="mt-8 text-center text-xs text-gray-600">
+        <p><i class="fa-solid fa-circle-info mr-1"></i>选择模式后随机抽取球队，11轮选秀组建阵容</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 选秀页 ==================== -->
+  <div id="page-draft" class="page">
+    <div class="flex flex-col min-h-screen">
+      <!-- 顶部信息栏 -->
+      <div class="bg-gray-900/95 backdrop-blur-sm p-4 sticky top-0 z-10">
+        <div class="flex items-center justify-between mb-3">
+          <button onclick="restartGame()" class="text-gray-400 hover:text-white text-sm transition-colors active:scale-95">
+            <i class="fa-solid fa-arrow-left mr-1"></i>返回
+          </button>
+          <div class="text-center">
+            <span id="draft-round-info" class="text-pitch-400 font-bold text-lg">第 1/11 轮</span>
+            <div id="draft-position-info" class="text-xs text-gray-400 mt-0.5">选择门将</div>
+          </div>
+          <div class="text-right">
+            <div id="draft-team-name" class="text-xs text-gray-400"></div>
+            <div id="draft-team-season" class="text-xs text-gray-600"></div>
+          </div>
+        </div>
+        <!-- 进度条 -->
+        <div class="w-full bg-gray-800 rounded-full h-2 overflow-hidden">
+          <div id="draft-progress-bar" class="bg-gradient-to-r from-pitch-600 to-pitch-400 h-2 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+        </div>
+        <!-- 位置进度指示 -->
+        <div class="flex justify-between mt-2 text-xs">
+          <span id="draft-pos-gk" class="text-gray-600">GK 0/1</span>
+          <span id="draft-pos-def" class="text-gray-600">DEF 0/4</span>
+          <span id="draft-pos-mid" class="text-gray-600">MID 0/4</span>
+          <span id="draft-pos-fwd" class="text-gray-600">FWD 0/2</span>
+        </div>
+      </div>
+
+      <!-- 阵型图 -->
+      <div class="bg-gradient-to-b from-gray-900/80 to-gray-950/90 p-4 my-1">
+        <div class="text-center text-xs text-gray-500 mb-2">4-4-2 阵型</div>
+        <div class="flex flex-col items-center gap-3">
+          <!-- 前锋 -->
+          <div class="flex gap-10 justify-center">
+            <div class="formation-slot" data-pos="FWD" data-index="0"><div class="slot-circle"><span class="slot-label">前锋</span></div></div>
+            <div class="formation-slot" data-pos="FWD" data-index="1"><div class="slot-circle"><span class="slot-label">前锋</span></div></div>
+          </div>
+          <!-- 中场 -->
+          <div class="flex gap-5 justify-center">
+            <div class="formation-slot" data-pos="MID" data-index="0"><div class="slot-circle"><span class="slot-label">中场</span></div></div>
+            <div class="formation-slot" data-pos="MID" data-index="1"><div class="slot-circle"><span class="slot-label">中场</span></div></div>
+            <div class="formation-slot" data-pos="MID" data-index="2"><div class="slot-circle"><span class="slot-label">中场</span></div></div>
+            <div class="formation-slot" data-pos="MID" data-index="3"><div class="slot-circle"><span class="slot-label">中场</span></div></div>
+          </div>
+          <!-- 后卫 -->
+          <div class="flex gap-5 justify-center">
+            <div class="formation-slot" data-pos="DEF" data-index="0"><div class="slot-circle"><span class="slot-label">后卫</span></div></div>
+            <div class="formation-slot" data-pos="DEF" data-index="1"><div class="slot-circle"><span class="slot-label">后卫</span></div></div>
+            <div class="formation-slot" data-pos="DEF" data-index="2"><div class="slot-circle"><span class="slot-label">后卫</span></div></div>
+            <div class="formation-slot" data-pos="DEF" data-index="3"><div class="slot-circle"><span class="slot-label">后卫</span></div></div>
+          </div>
+          <!-- 门将 -->
+          <div class="flex justify-center">
+            <div class="formation-slot" data-pos="GK" data-index="0"><div class="slot-circle"><span class="slot-label">门将</span></div></div>
+          </div>
+        </div>
+        <!-- 阵容战力统计 -->
+        <div id="draft-team-stats" class="mt-3 grid grid-cols-4 gap-2 text-center text-xs hidden">
+          <div class="bg-gray-800/50 rounded-lg p-2">
+            <div class="text-gray-500">总战力</div>
+            <div id="draft-stat-power" class="text-pitch-400 font-bold text-sm">0</div>
+          </div>
+          <div class="bg-gray-800/50 rounded-lg p-2">
+            <div class="text-gray-500">进攻</div>
+            <div id="draft-stat-attack" class="text-red-400 font-bold text-sm">0</div>
+          </div>
+          <div class="bg-gray-800/50 rounded-lg p-2">
+            <div class="text-gray-500">防守</div>
+            <div id="draft-stat-defense" class="text-blue-400 font-bold text-sm">0</div>
+          </div>
+          <div class="bg-gray-800/50 rounded-lg p-2">
+            <div class="text-gray-500">拦截</div>
+            <div id="draft-stat-intercept" class="text-green-400 font-bold text-sm">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 当前位置提示 -->
+      <div class="px-4 py-2 text-center">
+        <span id="draft-hint" class="text-sm text-gray-400">
+          <i class="fa-solid fa-hand-pointer mr-1 text-pitch-400"></i>选择一名门将加入阵容
+        </span>
+      </div>
+
+      <!-- 球员卡片区域 -->
+      <div class="flex-1 flex items-center px-4 py-2">
+        <div class="flex gap-3 w-full overflow-x-auto pb-3 snap-x snap-mandatory justify-center flex-wrap" id="draft-cards-container" style="touch-action: pan-y manipulation;">
+          <!-- 动态生成球员卡片 -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 模拟加载页 ==================== -->
+  <div id="page-simulating" class="page">
+    <div class="flex flex-col min-h-screen">
+      <!-- 顶部信息 -->
+      <div class="bg-gray-900/95 backdrop-blur-sm p-4 sticky top-0 z-10">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <span class="text-gray-400 text-xs"><i class="fa-solid fa-whistle mr-1"></i>赛季模拟中</span>
+            <div id="sim-record" class="text-2xl font-black text-pitch-400">0-0-0</div>
+          </div>
+          <div class="text-right">
+            <div id="sim-round-label" class="text-xs text-gray-500">第 0/38 轮</div>
+            <div id="sim-points" class="text-sm text-gray-400">0 积分</div>
+          </div>
+        </div>
+        <!-- 进度条 -->
+        <div class="w-full bg-gray-800 rounded-full h-3 overflow-hidden relative">
+          <div id="sim-progress-bar" class="bg-gradient-to-r from-pitch-600 to-pitch-400 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+          <div id="sim-progress-fail" class="absolute top-0 left-0 h-3 rounded-full bg-red-500/30 transition-all duration-300" style="width: 0%"></div>
+        </div>
+        <!-- 控制按钮 -->
+        <div class="flex gap-2 mt-3">
+          <button id="btn-sim-speed" onclick="toggleSimSpeed()" class="flex-1 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm transition-all active:scale-95">
+            <i class="fa-solid fa-forward mr-1"></i>加速
+          </button>
+          <button onclick="runSim()" class="flex-1 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-sm transition-all active:scale-95">
+            <i class="fa-solid fa-forward-fast mr-1"></i>跳过
+          </button>
+        </div>
+      </div>
+
+      <!-- 比赛结果列表 -->
+      <div id="sim-results" class="flex-1 overflow-y-auto p-3 space-y-1.5">
+        <!-- 动态生成比赛结果行 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 成就墙弹窗 ==================== -->
+  <div id="modal-achievement-wall" class="fixed inset-0 bg-black/85 flex items-center justify-center z-50 hidden overflow-y-auto modal-overlay">
+    <div class="result-modal bg-gray-900 rounded-2xl mx-4 my-8 max-w-sm w-full overflow-hidden relative">
+      <!-- 关闭按钮 -->
+      <button onclick="closeAchievementWall()" class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-gray-800/80 hover:bg-gray-700 text-gray-400 hover:text-white transition-all z-10 active:scale-90">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+      <!-- 标题 -->
+      <div class="p-5 pb-3 text-center">
+        <h2 class="text-xl font-black text-amber-400"><i class="fa-solid fa-trophy mr-2"></i>成就墙</h2>
+        <p id="achievement-progress" class="text-xs text-gray-500 mt-1">已解锁 0/12</p>
+      </div>
+      <!-- 成就列表 -->
+      <div id="achievement-wall-list" class="px-5 pb-5 space-y-2 max-h-[60vh] overflow-y-auto">
+        <!-- 动态生成 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 成就解锁提示浮层 ==================== -->
+  <div id="achievement-toast" class="fixed top-4 left-1/2 -translate-x-1/2 z-[60] hidden">
+    <div class="achievement-toast-inner flex items-center gap-3 px-5 py-3 rounded-xl">
+      <i id="achievement-toast-icon" class="fa-solid fa-crown text-amber-400 text-xl"></i>
+      <div>
+        <div class="text-amber-400 font-bold text-sm">成就解锁!</div>
+        <div id="achievement-toast-name" class="text-white text-xs"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 结算弹窗 ==================== -->
+  <div id="modal-result" class="fixed inset-0 bg-black/85 flex items-center justify-center z-50 hidden overflow-y-auto modal-overlay">
+    <div id="result-card" class="result-modal bg-gray-900 rounded-2xl mx-4 my-8 max-w-sm w-full overflow-hidden relative">
+      <!-- 关闭按钮 -->
+      <button onclick="closeResultModal()" class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-gray-800/80 hover:bg-gray-700 text-gray-400 hover:text-white transition-all z-10 active:scale-90">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <!-- 顶部战绩区 -->
+      <div id="result-header" class="p-6 text-center">
+        <!-- 完美赛季金色徽章 -->
+        <div id="result-perfect-badge" class="hidden mb-4">
+          <div class="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-yellow-400 text-black px-4 py-2 rounded-full font-black text-sm animate-pulse">
+            <i class="fa-solid fa-crown"></i>
+            <span>完美赛季 38-0-0</span>
+            <i class="fa-solid fa-crown"></i>
+          </div>
+        </div>
+        <!-- 战绩数字 -->
+        <div id="result-record" class="text-6xl font-black mb-2 tracking-wider"></div>
+        <div id="result-status" class="text-lg mb-1"></div>
+        <div id="result-subtitle" class="text-sm text-gray-500"></div>
+      </div>
+
+      <!-- 失败信息 -->
+      <div id="result-fail-info" class="mx-6 bg-red-900/20 border border-red-800/30 rounded-lg p-3 mb-4 hidden">
+        <div class="flex items-start gap-2">
+          <i class="fa-solid fa-circle-xmark text-red-400 mt-0.5"></i>
+          <div>
+            <div class="text-red-400 text-sm font-bold mb-1">挑战失败</div>
+            <p id="result-fail-text" class="text-red-300/80 text-xs"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 赛季数据表格 -->
+      <div id="result-stats" class="mx-6 bg-gray-800/50 rounded-lg p-4 mb-4">
+        <h4 class="text-sm text-gray-400 mb-3 font-bold"><i class="fa-solid fa-chart-bar mr-1"></i>赛季数据</h4>
+        <div class="grid grid-cols-3 gap-3 text-center">
+          <div>
+            <div id="result-stat-wins" class="text-2xl font-black text-green-400">0</div>
+            <div class="text-xs text-gray-500">胜场</div>
+          </div>
+          <div>
+            <div id="result-stat-draws" class="text-2xl font-black text-yellow-400">0</div>
+            <div class="text-xs text-gray-500">平局</div>
+          </div>
+          <div>
+            <div id="result-stat-loses" class="text-2xl font-black text-red-400">0</div>
+            <div class="text-xs text-gray-500">负场</div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3 text-center mt-3 pt-3 border-t border-gray-700/50">
+          <div>
+            <div id="result-stat-points" class="text-lg font-bold text-pitch-400">0</div>
+            <div class="text-xs text-gray-500">积分</div>
+          </div>
+          <div>
+            <div id="result-stat-rank" class="text-lg font-bold text-pitch-400">-</div>
+            <div class="text-xs text-gray-500">排名</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 阵容展示 -->
+      <div id="result-team" class="mx-6 bg-gray-800/50 rounded-lg p-4 mb-4">
+        <h4 class="text-sm text-gray-400 mb-2 font-bold"><i class="fa-solid fa-users mr-1"></i>你的阵容</h4>
+        <div id="result-team-players" class="grid grid-cols-2 gap-1.5 text-xs"></div>
+      </div>
+
+      <!-- 成就解锁 -->
+      <div id="result-achievements" class="mx-6 mb-4 hidden">
+        <div class="bg-gradient-to-r from-amber-900/30 to-yellow-900/30 border border-amber-700/30 rounded-lg p-3">
+          <p class="text-amber-400 text-sm font-bold mb-2"><i class="fa-solid fa-unlock mr-1"></i>成就解锁!</p>
+          <div id="result-achievements-list" class="space-y-1"></div>
+        </div>
+      </div>
+
+      <!-- 操作按钮 -->
+      <div class="p-6 pt-2 space-y-3">
+        <button onclick="captureScreenshot()" class="w-full py-3 bg-gradient-to-r from-pitch-600 to-pitch-700 hover:from-pitch-500 hover:to-pitch-600 rounded-xl font-bold transition-all active:scale-95 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-pitch-500/20">
+          <i class="fa-solid fa-camera mr-2"></i>保存截图
+        </button>
+        <button onclick="restartGame()" class="w-full py-3 bg-gray-800 hover:bg-gray-700 rounded-xl font-bold transition-all active:scale-95 hover:-translate-y-0.5">
+          <i class="fa-solid fa-rotate-right mr-2"></i>再来一局
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS模块按依赖顺序加载 -->
+  <script src="utils/random.js"></script>
+  <script src="game/Player.js"></script>
+  <script src="game/Team.js"></script>
+  <script src="game/data.js"></script>
+  <script src="game/DraftSystem.js"></script>
+  <script src="game/LeagueSim.js"></script>
+  <script src="utils/storage.js"></script>
+  <script src="game/GameState.js"></script>
+  <script src="utils/share.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+/**
+ * 38-0-0 游戏自定义样式
+ * 仅保留Tailwind无法实现的CSS动画/特效/伪元素
+ * 编码: UTF-8
+ */
+
+/* ==================== 页面切换（display+opacity无法纯Tailwind） ==================== */
+.page { display: none; opacity: 0; transition: opacity 0.3s ease; }
+.page.active { display: flex; flex-direction: column; opacity: 1; }
+
+/* ==================== 标题发光 ==================== */
+.title-glow { text-shadow: 0 0 20px rgba(34,197,94,0.4), 0 0 60px rgba(34,197,94,0.15); }
+
+/* ==================== 足球旋转 ==================== */
+.football-icon { animation: footballSpin 4s ease-in-out infinite; }
+@keyframes footballSpin {
+  0%,100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(90deg) scale(1.05); }
+  50% { transform: rotate(180deg) scale(1); }
+  75% { transform: rotate(270deg) scale(1.05); }
+}
+
+/* ==================== 按钮光扫特效 ==================== */
+.btn-shine::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  transition: left 0.5s ease;
+}
+.btn-shine:hover::before { left: 100%; }
+
+/* ==================== 阵型位 ==================== */
+.slot-circle {
+  width: 3.2rem; height: 3.2rem;
+  border-radius: 50%;
+  background-color: #1f2937;
+  border: 2px dashed #374151;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; color: #6b7280;
+  transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+.slot-label { pointer-events: none; }
+.formation-slot.filled .slot-circle {
+  border-style: solid; border-color: #22c55e;
+  background: radial-gradient(circle, rgba(34,197,94,0.2), rgba(34,197,94,0.05));
+  color: #22c55e; font-size: 0.45rem; line-height: 1.1;
+  padding: 2px; text-align: center; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap;
+  box-shadow: 0 0 12px rgba(34,197,94,0.2);
+  animation: slotFill 0.4s ease;
+}
+.formation-slot.highlight .slot-circle {
+  border-color: #4ade80;
+  box-shadow: 0 0 16px rgba(74,222,128,0.4);
+  animation: slotPulse 1.5s ease-in-out infinite;
+}
+@keyframes slotFill {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes slotPulse {
+  0%,100% { box-shadow: 0 0 8px rgba(74,222,128,0.2); }
+  50% { box-shadow: 0 0 20px rgba(74,222,128,0.5); }
+}
+
+/* ==================== 球员卡片 ==================== */
+.player-card {
+  background: linear-gradient(160deg, #1f2937, #111827);
+  border: 2px solid #374151;
+  border-radius: 12px;
+  padding: 16px 10px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  min-width: 120px; max-width: 140px;
+  flex-shrink: 0; scroll-snap-align: start;
+  position: relative; overflow: hidden;
+}
+.player-card::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, #22c55e, transparent);
+  opacity: 0; transition: opacity 0.2s;
+}
+.player-card:hover {
+  border-color: #22c55e;
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 32px rgba(34,197,94,0.2);
+}
+.player-card:hover::after { opacity: 1; }
+.player-card:active { transform: translateY(-2px) scale(0.98); transition-duration: 0.1s; }
+/* 选中金色边框高亮 */
+.player-card.card-selected {
+  border-color: #fbbf24 !important;
+  background: linear-gradient(160deg, #451a03, #78350f) !important;
+  box-shadow: 0 0 24px rgba(251,191,36,0.35), 0 0 48px rgba(251,191,36,0.1) !important;
+}
+.player-card.card-selected::after {
+  background: linear-gradient(90deg, transparent, #fbbf24, transparent) !important;
+  opacity: 1 !important;
+}
+
+/* ==================== 位置标签颜色 ==================== */
+.pos-tag-GK  { background-color: #f59e0b; color: #000; }
+.pos-tag-CB  { background-color: #3b82f6; color: #fff; }
+.pos-tag-FB  { background-color: #6366f1; color: #fff; }
+.pos-tag-CDM { background-color: #22c55e; color: #fff; }
+.pos-tag-CAM { background-color: #10b981; color: #fff; }
+.pos-tag-FW  { background-color: #ef4444; color: #fff; }
+.pos-tag-DEF { background-color: #3b82f6; color: #fff; }
+.pos-tag-MID { background-color: #22c55e; color: #fff; }
+.pos-tag-FWD { background-color: #ef4444; color: #fff; }
+
+/* ==================== 模拟结果行 ==================== */
+.sim-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; border-radius: 8px;
+  background: rgba(31,41,55,0.5);
+  animation: slideIn 0.3s ease;
+  transition: background 0.2s;
+}
+.sim-row:hover { background: rgba(31,41,55,0.8); }
+.sim-row.win  { border-left: 3px solid #22c55e; }
+.sim-row.draw { border-left: 3px solid #f59e0b; }
+.sim-row.lose { border-left: 3px solid #ef4444; }
+.sim-row.lose-row {
+  animation: slideIn 0.3s ease, failFlash 0.6s ease 0.3s;
+  background: rgba(239,68,68,0.1) !important;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes failFlash {
+  0%,100% { background: rgba(239,68,68,0.1); }
+  50%    { background: rgba(239,68,68,0.25); }
+}
+
+/* ==================== 结算弹窗 ==================== */
+.result-modal {
+  animation: modalIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  max-height: 90vh; overflow-y: auto;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.85) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+/* 弹窗打开时锁定底层滚动 */
+.modal-overlay.modal-open { overflow: hidden; }
+body.modal-locked { overflow: hidden !important; }
+
+/* 完美赛季金色特效 */
+.result-perfect {
+  background: linear-gradient(160deg, #14532d, #166534, #1a3a1a, #14532d) !important;
+  border: 2px solid #22c55e !important;
+  box-shadow: 0 0 60px rgba(34,197,94,0.3), 0 0 120px rgba(34,197,94,0.1) !important;
+}
+.result-perfect #result-header {
+  background: linear-gradient(180deg, rgba(34,197,94,0.1), transparent);
+}
+/* 完美赛季金色闪光渐变文字 */
+.result-perfect-text {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b, #fde68a, #f59e0b, #fbbf24);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  filter: drop-shadow(0 0 10px rgba(251,191,36,0.4));
+  animation: goldShimmer 2s ease-in-out infinite;
+}
+@keyframes goldShimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ==================== 成就徽章 ==================== */
+.achievement-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 10px; border-radius: 9999px;
+  font-size: 0.75rem;
+  background: rgba(34,197,94,0.15); color: #22c55e;
+  border: 1px solid rgba(34,197,94,0.3);
+  transition: all 0.2s;
+}
+.achievement-badge:hover { background: rgba(34,197,94,0.25); transform: scale(1.05); }
+
+/* ==================== 成就墙卡片 ==================== */
+.ach-wall-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px; border-radius: 12px;
+  background: rgba(31,41,55,0.5);
+  border: 1px solid #374151;
+  transition: all 0.3s;
+}
+.ach-wall-item.unlocked {
+  background: linear-gradient(135deg, rgba(251,191,36,0.08), rgba(245,158,11,0.04));
+  border-color: rgba(251,191,36,0.4);
+}
+.ach-wall-item.locked {
+  opacity: 0.45;
+  filter: grayscale(0.8);
+}
+.ach-wall-icon {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.ach-wall-item.unlocked .ach-wall-icon {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  color: #000;
+  box-shadow: 0 0 16px rgba(251,191,36,0.3);
+}
+.ach-wall-item.locked .ach-wall-icon {
+  background: #374151;
+  color: #6b7280;
+}
+
+/* ==================== 成就解锁金色提示动画 ==================== */
+.achievement-toast-inner {
+  background: linear-gradient(135deg, #78350f, #92400e, #78350f);
+  border: 1px solid rgba(251,191,36,0.5);
+  box-shadow: 0 0 30px rgba(251,191,36,0.3), 0 8px 32px rgba(0,0,0,0.5);
+  animation: toastSlideIn 0.5s cubic-bezier(0.34,1.56,0.64,1), toastSlideOut 0.4s ease 2.6s forwards;
+}
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateY(-30px) scale(0.9); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes toastSlideOut {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(-20px) scale(0.95); }
+}
+
+/* ==================== 位置进度高亮 ==================== */
+.pos-progress-active { color: #22c55e !important; font-weight: bold; }
+.pos-progress-done   { color: #4ade80 !important; }
+
+/* ==================== 移动端适配 ==================== */
+@media (max-width: 375px) {
+  .player-card { padding: 12px 6px; min-width: 100px; max-width: 120px; }
+  h1 { font-size: 2.5rem !important; }
+  .slot-circle { width: 2.8rem; height: 2.8rem; font-size: 0.6rem; }
+  .formation-slot.filled .slot-circle { font-size: 0.4rem; }
+  .result-modal { margin: 8px; max-height: 95vh; }
+  /* 小屏卡牌容器：允许换行，居中排列 */
+  #draft-cards-container {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+  }
+}
+@media (min-width: 640px) {
+  .player-card { min-width: 140px; max-width: 160px; }
+  .slot-circle { width: 3.5rem; height: 3.5rem; }
+}
+
+/* ==================== 滚动条 ==================== */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #374151; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+
+/* ==================== 触控优化 ==================== */
+button, .player-card {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
