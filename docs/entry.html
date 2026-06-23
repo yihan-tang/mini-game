@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>【参赛作品】38-0-0 完美赛季挑战</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --primary: #22c55e;
+      --amber: #fbbf24;
+    }
+    body {
+      background: linear-gradient(135deg, #0a0f0a 0%, #1a1f1a 100%);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--primary), #4ade80);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .gold-text {
+      background: linear-gradient(135deg, var(--amber), #f59e0b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .card-hover {
+      transition: all 0.3s;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(34, 197, 94, 0.15);
+    }
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body class="text-gray-100 min-h-screen">
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <!-- 顶部标题 -->
+    <div class="text-center mb-10">
+      <div class="inline-flex items-center gap-3 mb-4">
+        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center animate-float">
+          <i class="fa-solid fa-futbol text-white text-2xl"></i>
+        </div>
+        <div>
+          <h1 class="text-3xl md:text-4xl font-black gradient-text">38-0-0 完美赛季挑战</h1>
+          <p class="text-gray-400 text-sm">Trae Game Jam 参赛作品</p>
+        </div>
+      </div>
+      <div class="flex flex-wrap justify-center gap-3">
+        <span class="px-4 py-2 bg-green-500/20 text-green-400 text-sm rounded-full border border-green-500/30">体育策略</span>
+        <span class="px-4 py-2 bg-amber-500/20 text-amber-400 text-sm rounded-full border border-amber-500/30">H5游戏</span>
+        <span class="px-4 py-2 bg-blue-500/20 text-blue-400 text-sm rounded-full border border-blue-500/30">创意设计</span>
+      </div>
+    </div>
+
+    <!-- 核心玩法 -->
+    <div class="bg-gray-800/60 rounded-2xl p-6 mb-6">
+      <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+        <i class="fa-solid fa-gamepad text-green-400"></i> 核心玩法
+      </h2>
+      <div class="flex flex-wrap items-center justify-center gap-4 md:gap-8">
+        <div class="flex flex-col items-center">
+          <div class="w-16 h-16 rounded-xl bg-gray-700 flex items-center justify-center mb-2">
+            <i class="fa-solid fa-random text-green-400 text-xl"></i>
+          </div>
+          <span class="text-sm font-semibold text-white">随机抽队</span>
+        </div>
+        <i class="fa-solid fa-arrow-right text-gray-500"></i>
+        <div class="flex flex-col items-center">
+          <div class="w-16 h-16 rounded-xl bg-gray-700 flex items-center justify-center mb-2">
+            <i class="fa-solid fa-users text-amber-400 text-xl"></i>
+          </div>
+          <span class="text-sm font-semibold text-white">11轮选秀</span>
+        </div>
+        <i class="fa-solid fa-arrow-right text-gray-500"></i>
+        <div class="flex flex-col items-center">
+          <div class="w-16 h-16 rounded-xl bg-gray-700 flex items-center justify-center mb-2">
+            <i class="fa-solid fa-play text-blue-400 text-xl"></i>
+          </div>
+          <span class="text-sm font-semibold text-white">38轮模拟</span>
+        </div>
+        <i class="fa-solid fa-arrow-right text-gray-500"></i>
+        <div class="flex flex-col items-center">
+          <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center mb-2">
+            <i class="fa-solid fa-trophy text-white text-xl"></i>
+          </div>
+          <span class="text-sm font-semibold text-amber-400">完美赛季</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 特色亮点 -->
+    <div class="grid md:grid-cols-2 gap-4 mb-6">
+      <div class="bg-gray-800/60 rounded-xl p-5 card-hover">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center">
+            <i class="fa-solid fa-target text-green-400"></i>
+          </div>
+          <h3 class="font-semibold text-white">极致挑战</h3>
+        </div>
+        <p class="text-sm text-gray-400">挑战38胜0平0负的完美赛季，每一场比赛都不能输！</p>
+      </div>
+      <div class="bg-gray-800/60 rounded-xl p-5 card-hover">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-10 h-10 rounded-lg bg-amber-500/20 flex items-center justify-center">
+            <i class="fa-solid fa-random text-amber-400"></i>
+          </div>
+          <h3 class="font-semibold text-white">高随机性</h3>
+        </div>
+        <p class="text-sm text-gray-400">随机抽取历史球队，每局体验都不同，充满新鲜感！</p>
+      </div>
+      <div class="bg-gray-800/60 rounded-xl p-5 card-hover">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
+            <i class="fa-solid fa-mobile text-blue-400"></i>
+          </div>
+          <h3 class="font-semibold text-white">全平台适配</h3>
+        </div>
+        <p class="text-sm text-gray-400">H5技术，手机、平板、电脑都能畅快游玩！</p>
+      </div>
+      <div class="bg-gray-800/60 rounded-xl p-5 card-hover">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
+            <i class="fa-solid fa-share-alt text-purple-400"></i>
+          </div>
+          <h3 class="font-semibold text-white">社交分享</h3>
+        </div>
+        <p class="text-sm text-gray-400">一键截图分享战绩，向好友炫耀你的完美赛季！</p>
+      </div>
+    </div>
+
+    <!-- 成就系统 -->
+    <div class="bg-gray-800/60 rounded-2xl p-6 mb-6">
+      <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-trophy text-amber-400"></i> 成就系统
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div class="bg-gradient-to-br from-amber-500/20 to-amber-600/10 rounded-lg p-3 text-center">
+          <i class="fa-solid fa-crown text-xl text-amber-400 mb-1"></i>
+          <div class="text-xs font-bold text-amber-400">金色完美赛季</div>
+          <div class="text-xs text-gray-500">达成38-0-0</div>
+        </div>
+        <div class="bg-gradient-to-br from-amber-500/20 to-amber-600/10 rounded-lg p-3 text-center">
+          <i class="fa-solid fa-star text-xl text-amber-400 mb-1"></i>
+          <div class="text-xs font-bold text-amber-400">银河战舰</div>
+          <div class="text-xs text-gray-500">全员95+阵容</div>
+        </div>
+        <div class="bg-gradient-to-br from-purple-500/20 to-purple-600/10 rounded-lg p-3 text-center">
+          <i class="fa-solid fa-seedling text-xl text-purple-400 mb-1"></i>
+          <div class="text-xs font-bold text-purple-400">平民奇迹</div>
+          <div class="text-xs text-gray-500">平均&lt;85阵容</div>
+        </div>
+        <div class="bg-gradient-to-br from-purple-500/20 to-purple-600/10 rounded-lg p-3 text-center">
+          <i class="fa-solid fa-trophy text-xl text-purple-400 mb-1"></i>
+          <div class="text-xs font-bold text-purple-400">国家英雄</div>
+          <div class="text-xs text-gray-500">国家队完美赛季</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 技术实现 -->
+    <div class="grid md:grid-cols-3 gap-4 mb-6">
+      <div class="bg-gray-800/60 rounded-xl p-5">
+        <div class="text-center mb-3">
+          <i class="fa-solid fa-code text-2xl text-green-400"></i>
+        </div>
+        <h3 class="font-semibold text-white text-center mb-2">前端技术</h3>
+        <p class="text-xs text-gray-400 text-center">原生HTML/CSS/JS，零依赖，即开即玩</p>
+      </div>
+      <div class="bg-gray-800/60 rounded-xl p-5">
+        <div class="text-center mb-3">
+          <i class="fa-solid fa-paint-brush text-2xl text-amber-400"></i>
+        </div>
+        <h3 class="font-semibold text-white text-center mb-2">样式框架</h3>
+        <p class="text-xs text-gray-400 text-center">Tailwind CSS 3.4.x，响应式设计</p>
+      </div>
+      <div class="bg-gray-800/60 rounded-xl p-5">
+        <div class="text-center mb-3">
+          <i class="fa-solid fa-plug text-2xl text-blue-400"></i>
+        </div>
+        <h3 class="font-semibold text-white text-center mb-2">第三方依赖</h3>
+        <p class="text-xs text-gray-400 text-center">FontAwesome + html2canvas（CDN）</p>
+      </div>
+    </div>
+
+    <!-- 游戏预览 -->
+    <div class="bg-gray-800/60 rounded-2xl p-6 mb-6">
+      <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+        <i class="fa-solid fa-eye text-blue-400"></i> 游戏预览
+      </h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-gray-900/80 rounded-xl p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm font-semibold text-white">首页</span>
+            <span class="text-xs text-gray-500">模式选择</span>
+          </div>
+          <div class="flex items-center gap-2 mb-3">
+            <div class="flex-1 h-24 bg-gray-800 rounded-lg flex items-center justify-center">
+              <div class="text-center">
+                <i class="fa-solid fa-futbol text-3xl text-green-400 mb-1"></i>
+                <div class="text-xs text-gray-400">38-0-0</div>
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <button class="flex-1 py-2 bg-green-500/20 text-green-400 text-sm rounded-lg border border-green-500/30">英超模式</button>
+            <button class="flex-1 py-2 bg-blue-500/20 text-blue-400 text-sm rounded-lg border border-blue-500/30">国家队</button>
+          </div>
+        </div>
+        <div class="bg-gray-900/80 rounded-xl p-4 border border-gray-700">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-sm font-semibold text-white">选秀页</span>
+            <span class="text-xs text-gray-500">3选1组建阵容</span>
+          </div>
+          <div class="flex gap-2">
+            <div class="flex-1 h-20 bg-gray-800 rounded-lg flex flex-col items-center justify-center">
+              <span class="text-xs text-gray-500">选项A</span>
+              <span class="text-sm font-bold text-red-400">OVR: 92</span>
+            </div>
+            <div class="flex-1 h-20 bg-gray-800 rounded-lg flex flex-col items-center justify-center">
+              <span class="text-xs text-gray-500">选项B</span>
+              <span class="text-sm font-bold text-amber-400">OVR: 85</span>
+            </div>
+            <div class="flex-1 h-20 bg-gray-800 rounded-lg flex flex-col items-center justify-center">
+              <span class="text-xs text-gray-500">选项C</span>
+              <span class="text-sm font-bold text-green-400">OVR: 78</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 开发团队 -->
+    <div class="bg-gradient-to-br from-green-500/10 to-green-600/5 rounded-2xl p-6">
+      <div class="flex items-center gap-4">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center">
+          <i class="fa-solid fa-user text-white text-xl"></i>
+        </div>
+        <div class="flex-1">
+          <h3 class="font-semibold text-white">GameDev Team</h3>
+          <p class="text-sm text-gray-400">独立开发者团队</p>
+        </div>
+        <div class="text-right">
+          <div class="text-xs text-gray-500">开发周期</div>
+          <div class="text-sm font-semibold text-white">3周</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 页脚 -->
+    <div class="text-center mt-8 text-sm text-gray-500">
+      <p>© 2026 GameDev Team · Trae Game Jam 参赛作品</p>
+    </div>
+  </div>
+</body>
+</html>
